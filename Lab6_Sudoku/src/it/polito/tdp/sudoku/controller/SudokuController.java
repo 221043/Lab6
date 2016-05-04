@@ -267,18 +267,22 @@ public class SudokuController {
     
     List<Label> labelList = new ArrayList<Label>(); 
     
+    private SudokuGenerator sg = new SudokuGenerator();
+    
+    public void setModel(SudokuGenerator sg){
+    	this.sg = sg;
+    }
+    
     @FXML
     void doGenerate(ActionEvent event){
     	// Per generare un nuova nuova griglia di Sudoku
-		SudokuGenerator sg = new SudokuGenerator();
-		int [][] matrix = sg.nextBoard(levelExpert);
-		
+		int [][] matrix = sg.nextBoard(levelExpert);		
 		printMatrixOnScreen(matrix);
     }
     
     @FXML
     void doSolve(ActionEvent event){
-    	
+    	printMatrixOnScreen(sg.solution());
     }
     
     @FXML
