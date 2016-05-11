@@ -158,7 +158,7 @@ public class SudokuGenerator {
 					posizioniVietate.add(i+"-"+j);
 			}
 		}
-		this.run(0, 0, 0);
+		this.run(0, 0, 0, board);
 		return board;
 	}
 	
@@ -185,7 +185,46 @@ public class SudokuGenerator {
 		return false;
 	}
 	
-	public void run(int riga, int colonna, int taboo){
+	public void vaiAvanti(int riga, int colonna, int[][] board){
+		if(colonna<BOARD_HEIGHT-1){
+			run(riga, colonna+1, 0, board);
+		}
+		else if(riga<BOARD_WIDTH-1){
+			run(riga+1, 0, 0, board);
+		}
+	}
+	
+	public void tornaIndietro(int riga, int colonna, int[][] board){
+		if(colonna==0 && riga>0){
+			int temp = board[riga-1][BOARD_HEIGHT-1];
+			run(riga-1, BOARD_HEIGHT-1, temp, board);
+		}			
+		else{
+			int temp = board[riga][colonna-1];
+			run(riga, colonna-1, temp, board);
+		}					
+	}
+	
+//	public boolean riempiUno(){
+//		for(int i=0; i<BOARD_WIDTH; i++){
+//			for(int j=0; j<BOARD_HEIGHT; j++){
+//				int count=0;
+//				if(board[i][j]==0){
+//					for(int k=1; k<10; k++){
+//						if(this.legalMove(i, j, k))
+//							count++;
+//						if(count>1)
+//							break;
+//					}
+//					if(count==1)
+//				}
+//					
+//			}
+//		}
+//		return true;
+//	}
+	
+	public void run(int riga, int colonna, int taboo, int[][] board){
 		if(this.isComplete())
 			return;
 		if(this.checkOk(riga, colonna)){
@@ -194,42 +233,19 @@ public class SudokuGenerator {
 			for(int i=taboo+1; i<10; i++){
 				if(this.legalMove(riga, colonna, i)){
 					board[riga][colonna] = i;
-					System.out.println(riga+"-"+colonna+"  numero "+i);
-					if(colonna<BOARD_HEIGHT-1){
-						run(riga, colonna+1, 0);
-					}
-					else if(riga<BOARD_WIDTH-1){
-						run(riga+1, 0, 0);
-					}
+//					System.out.println(riga+"-"+colonna+"  numero "+i);
+					this.vaiAvanti(riga, colonna, board);
+					break;
 				}
 			}
-			if(board[riga][colonna]==0 || board[riga][colonna]==taboo){
-				if(colonna==0 && riga>0){
-						int temp = board[riga-1][BOARD_HEIGHT-1];
-						run(riga-1, BOARD_HEIGHT-1, temp);
-					}			
-				else{
-						int temp = board[riga][colonna-1];
-						run(riga, colonna-1, temp);
-					}					
-			}	
+			if(board[riga][colonna]==0 || board[riga][colonna]==taboo)
+				this.tornaIndietro(riga, colonna, board);	
 		}
-		else if(taboo==0){
-			if(colonna<BOARD_HEIGHT-1)
-				run(riga, colonna+1, 0);
-			else if(riga<BOARD_WIDTH-1)
-				run(riga+1, 0, 0);
-		}
-		else {
-			if(colonna==0 && riga>0){
-				int temp = board[riga-1][BOARD_HEIGHT-1];
-				run(riga-1,  BOARD_HEIGHT-1, temp);
-			}
-			else if(colonna>0){
-				int temp = board[riga][colonna-1];
-				run(riga, colonna-1, temp);
-			}
-		}		
+		else if(taboo==0)
+			this.vaiAvanti(riga, colonna, board);
+		else 
+			this.tornaIndietro(riga, colonna, board);
+		return;
 	}
-	
+
 }

@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.sudoku.model.SudokuGenerator;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 
 public class SudokuController {
@@ -16,9 +19,14 @@ public class SudokuController {
 	final static int levelAdvanced = 50;
 	final static int levelExpert = 55;
 	
+	ObservableList<String> level = FXCollections.observableArrayList("Easy", "Advanced", "Expert");
+	
     @FXML
     private ResourceBundle resources;
 
+    @FXML
+    private ChoiceBox<String> cmbLevel;
+    
     @FXML
     private URL location;
 
@@ -276,6 +284,13 @@ public class SudokuController {
     @FXML
     void doGenerate(ActionEvent event){
     	// Per generare un nuova nuova griglia di Sudoku
+    	int livello=0;
+    	if(cmbLevel.getValue().compareTo("Easy")==0)
+    		livello = levelEasy;
+    	else if(cmbLevel.getValue().compareTo("Advanced")==0)
+    		livello = levelAdvanced;
+    	else 
+    		livello = levelExpert;
 		int [][] matrix = sg.nextBoard(levelExpert);		
 		printMatrixOnScreen(matrix);
     }
@@ -450,6 +465,9 @@ public class SudokuController {
         labelList.add(lbl79);
         labelList.add(lbl80);
         labelList.add(lbl81);
+        
+        cmbLevel.setItems(level);
+        cmbLevel.setValue("Easy");
     }
     
     

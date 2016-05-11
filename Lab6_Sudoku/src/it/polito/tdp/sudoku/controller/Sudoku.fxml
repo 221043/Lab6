@@ -15,7 +15,7 @@
          <children>
             <Button layoutX="381.0" layoutY="43.0" mnemonicParsing="false" onAction="#doGenerate" text="Genera Sudoku" />
             <Button layoutX="382.0" layoutY="160.0" mnemonicParsing="false" onAction="#doSolve" prefHeight="27.0" prefWidth="112.0" text="Risolvi Sudoku" />
-            <ChoiceBox layoutX="381.0" layoutY="88.0" prefHeight="27.0" prefWidth="112.0" />
+            <ChoiceBox fx:id="cmbLevel" layoutX="381.0" layoutY="88.0" prefHeight="27.0" prefWidth="112.0" />
             <GridPane layoutX="128.0" layoutY="35.0" prefHeight="87.0" prefWidth="101.0" style="-fx-border-width: 2px; -fx-border-color: #EEE;">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
